@@ -7,7 +7,7 @@
 
 #import "RZSegmentViewController.h"
 
-#define kDefaultSegmentControlHeight 40.0
+#define kDefaultSegmentControlHeight 44.0
 
 @interface RZSegmentViewController ()
 
@@ -28,6 +28,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.shouldSegmentedControlOverlapContentView = YES; // unfortunately, default to YES to support legacy usage
         [self setupSegmentViewController];
     }
     return self;
@@ -54,6 +55,13 @@
         contentView.autoresizesSubviews = YES;
         contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
+        if( self.shouldSegmentedControlOverlapContentView == NO ) {
+            // inset content-view frame if desired
+            contentView.frame = CGRectMake(contentView.frame.origin.x,
+                                           contentView.frame.origin.y + kDefaultSegmentControlHeight,
+                                           contentView.frame.size.width,
+                                           contentView.frame.size.height - kDefaultSegmentControlHeight);
+        }
         [self.view addSubview:contentView];
         [self.view sendSubviewToBack:contentView];
         

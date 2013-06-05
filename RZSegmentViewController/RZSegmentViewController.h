@@ -13,6 +13,7 @@
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentControl;
 
 @property (nonatomic, copy) NSArray *viewControllers;
+@property (nonatomic, assign) BOOL shouldSegmentedControlOverlapContentView;
 
 - (IBAction)segmentControlValueChanged:(id)sender;
 
