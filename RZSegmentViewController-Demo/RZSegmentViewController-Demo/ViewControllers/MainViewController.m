@@ -32,7 +32,6 @@
 
     self.segmentVC = [[RZSegmentViewController alloc] init];
     self.segmentVC.viewControllers = @[basicVC1, basicVC2, tableVC];
-    self.segmentVC.shouldSegmentedControlOverlapContentView = NO; // note this property defaults to YES for legacy app support
     
     [self addChildViewController:self.segmentVC];
     self.segmentVC.view.frame = self.view.bounds;

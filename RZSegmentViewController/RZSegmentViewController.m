@@ -28,7 +28,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.shouldSegmentedControlOverlapContentView = YES; // unfortunately, default to YES to support legacy usage
         [self setupSegmentViewController];
     }
     return self;
@@ -41,13 +40,12 @@
 
 - (void)setupSegmentViewController
 {
-    
+    // override in sub-class as needed
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
     if (self.contentView == nil)
     {
