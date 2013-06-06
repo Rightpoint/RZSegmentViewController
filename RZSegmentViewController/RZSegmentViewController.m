@@ -7,7 +7,7 @@
 
 #import "RZSegmentViewController.h"
 
-#define kDefaultSegmentControlHeight 40.0
+#define kDefaultSegmentControlHeight 44.0
 
 @interface RZSegmentViewController ()
 
@@ -40,13 +40,12 @@
 
 - (void)setupSegmentViewController
 {
-    
+    // override in sub-class as needed
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
     if (self.contentView == nil)
     {
@@ -54,6 +53,13 @@
         contentView.autoresizesSubviews = YES;
         contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
+        if( self.shouldSegmentedControlOverlapContentView == NO ) {
+            // inset content-view frame if desired
+            contentView.frame = CGRectMake(contentView.frame.origin.x,
+                                           contentView.frame.origin.y + kDefaultSegmentControlHeight,
+                                           contentView.frame.size.width,
+                                           contentView.frame.size.height - kDefaultSegmentControlHeight);
+        }
         [self.view addSubview:contentView];
         [self.view sendSubviewToBack:contentView];
         
