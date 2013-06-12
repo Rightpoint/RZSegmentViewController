@@ -13,7 +13,9 @@
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentControl;
 
 @property (nonatomic, copy) NSArray *viewControllers;
-@property (nonatomic, assign) BOOL shouldSegmentedControlOverlapContentView; // use TRUE if you want overlap 
+
+// whether child view-controllers are allowed to scroll underneath the segmented view
+@property (nonatomic, assign) BOOL shouldSegmentedControlOverlapContentView; 
 
 - (IBAction)segmentControlValueChanged:(id)sender;
 
