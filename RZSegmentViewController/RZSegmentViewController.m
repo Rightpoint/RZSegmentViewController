@@ -104,6 +104,10 @@
     self.currentViewController.view.frame = self.contentView.bounds;
     [self.contentView addSubview:self.currentViewController.view];
     [self.currentViewController didMoveToParentViewController:self];
+    if ([self.selectedSegmentDelegate respondsToSelector:@selector(didSelectSegmentAtIndex:)])
+    {
+        [self.selectedSegmentDelegate didSelectSegmentAtIndex:index];
+    }
 }
 
 - (IBAction)segmentControlValueChanged:(id)sender
