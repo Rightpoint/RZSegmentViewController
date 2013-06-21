@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol RZSegmentSelectedSegmentDelegate <NSObject>
+@protocol RZSelectedSegmentDelegate <NSObject>
 
 -(void)didSelectSegmentAtIndex:(NSUInteger)index;
 
@@ -23,7 +23,7 @@
 // whether child view-controllers are allowed to scroll underneath the segmented view
 @property (nonatomic, assign) BOOL shouldSegmentedControlOverlapContentView; 
 
-@property (weak) id <RZSegmentSelectedSegmentDelegate> selectedSegmentDelegate;
+@property (weak) id <RZSelectedSegmentDelegate> selectedSegmentDelegate;
 
 - (IBAction)segmentControlValueChanged:(id)sender;
 
