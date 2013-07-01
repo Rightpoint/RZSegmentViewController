@@ -102,6 +102,7 @@
     
     [self addChildViewController:self.currentViewController];
     self.currentViewController.view.frame = self.contentView.bounds;
+    self.currentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.contentView addSubview:self.currentViewController.view];
     [self.currentViewController didMoveToParentViewController:self];
     if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectSegmentAtIndex:)])
