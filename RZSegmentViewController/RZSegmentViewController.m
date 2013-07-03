@@ -11,7 +11,6 @@
 
 @interface RZSegmentViewController ()
 
-@property (nonatomic, assign) NSUInteger selectedIndex;
 @property (nonatomic, weak) UIViewController *currentViewController;
 
 - (void)setupSegmentViewController;
@@ -83,6 +82,22 @@
     [self showSegmentViewControllerAtIndex:self.selectedIndex];
 }
 
+#pragma mark - Properties
+
+- (void)setSelectedIndex:(NSUInteger)selectedIndex
+{
+    if (selectedIndex < self.segmentControl.numberOfSegments)
+    {
+        [self.segmentControl setSelectedSegmentIndex:selectedIndex];
+        [self showSegmentViewControllerAtIndex:selectedIndex];
+        _selectedIndex = selectedIndex;
+    }
+    
+    // TODO: Error handling if index is out of bounds?
+}
+
+#pragma mark - Private
+
 - (void)updateSegmentControl:(UISegmentedControl*)segmentControl forViewControllers:(NSArray*)viewControllers
 {
     [segmentControl removeAllSegments];
@@ -113,7 +128,6 @@
 
 - (IBAction)segmentControlValueChanged:(id)sender
 {
-    [self showSegmentViewControllerAtIndex:self.segmentControl.selectedSegmentIndex];
     self.selectedIndex = self.segmentControl.selectedSegmentIndex;
 }
 
