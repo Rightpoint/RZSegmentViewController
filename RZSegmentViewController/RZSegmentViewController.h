@@ -31,6 +31,4 @@
 
 - (IBAction)segmentControlValueChanged:(id)sender;
 
-- (void)selectViewControllerAtIndex:(NSUInteger)index;
-
 @end
