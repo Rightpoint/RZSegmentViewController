@@ -20,11 +20,17 @@
 
 @property (nonatomic, copy) NSArray *viewControllers;
 
+// Changing this will select the VC at that index
+@property (nonatomic, assign) NSUInteger selectedIndex;
+
+
 // whether child view-controllers are allowed to scroll underneath the segmented view
 @property (nonatomic, assign) BOOL shouldSegmentedControlOverlapContentView; 
 
 @property (weak) id <RZSelectedSegmentDelegate> delegate;
 
 - (IBAction)segmentControlValueChanged:(id)sender;
+
+- (void)selectViewControllerAtIndex:(NSUInteger)index;
 
 @end
