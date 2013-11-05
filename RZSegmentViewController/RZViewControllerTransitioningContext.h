@@ -1,9 +1,9 @@
 //
 //  RZViewControllerTransitioningContext.h
-//  VirginPulse
+//  Raizlabs
 //
 //  Created by Alex Rouse on 11/5/13.
-//  Copyright (c) 2013 Virgin. All rights reserved.
+//  Copyright (c) 2013 Raizlabs. All rights reserved.
 //
 
 /** 

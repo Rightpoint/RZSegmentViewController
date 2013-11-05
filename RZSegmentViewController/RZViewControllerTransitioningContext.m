@@ -1,9 +1,9 @@
 //
 //  RZViewControllerTransitioningContext.m
-//  VirginPulse
+//  Raizlabs
 //
 //  Created by Alex Rouse on 11/5/13.
-//  Copyright (c) 2013 Virgin. All rights reserved.
+//  Copyright (c) 2013 RaizLabs. All rights reserved.
 //
 
 #import "RZViewControllerTransitioningContext.h"
@@ -84,7 +84,7 @@
     return UIModalPresentationCustom;
 }
 
-// Not quite sure how this will work out yet.  For now we will just set this to the bounds,  Doing this means that any animations have to happen with a transform.
+// For now we will just set this to the bounds.  Doing this means that any animations have to happen with a transform.
 - (CGRect)initialFrameForViewController:(UIViewController *)vc
 {
     return self.contentContainerView.bounds;
