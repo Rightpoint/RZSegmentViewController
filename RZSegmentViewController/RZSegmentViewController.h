@@ -19,7 +19,10 @@
 @property (nonatomic, strong) IBOutlet UIView *contentView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentControl;
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
 @property (nonatomic, strong) id<UIViewControllerAnimatedTransitioning> animationTransitioning;
+#endif
+
 @property (nonatomic, copy) NSArray *viewControllers;
 
 // Changing this will select the VC at that index

@@ -6,7 +6,10 @@
 //
 
 #import "RZSegmentViewController.h"
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
 #import "RZViewControllerTransitioningContext.h"
+#endif
 
 #define kDefaultSegmentControlHeight 44.0
 
@@ -69,6 +72,9 @@
     if (self.segmentControl == nil)
     {
         UISegmentedControl *segmentControl = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDefaultSegmentControlHeight)];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
+        segmentControl.segmentedControlStyle = UISegmentedControlStyleBar;
+#endif
         segmentControl.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
         [segmentControl addTarget:self action:@selector(segmentControlValueChanged:) forControlEvents:UIControlEventValueChanged];
         
@@ -120,7 +126,7 @@
 
 - (void)showSegmentViewControllerAtIndex:(NSUInteger)index animated:(BOOL)animated
 {
-
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
     if (self.animationTransitioning && animated)
     {
         UIViewController* nextVC = [self.viewControllers objectAtIndex:index];
@@ -135,6 +141,7 @@
     }
     else
     {
+#endif
         [self.currentViewController willMoveToParentViewController:nil];
         [self.currentViewController.view removeFromSuperview];
         [self.currentViewController removeFromParentViewController];
@@ -150,7 +157,9 @@
         {
             [self.delegate didSelectSegmentAtIndex:index];
         }
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
     }
+#endif
 }
 - (IBAction)segmentControlValueChanged:(id)sender
 {
