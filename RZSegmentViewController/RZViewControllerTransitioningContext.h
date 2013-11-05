@@ -16,7 +16,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class RZViewControllerTransitioningContext;
+
 @interface RZViewControllerTransitioningContext : NSObject <UIViewControllerContextTransitioning>
+
+// Completion block for after the transition happens
+@property (nonatomic, copy) void (^completionBlock)(BOOL succeeded, RZViewControllerTransitioningContext* transitioningContext);
 
 //Sets if the transition will be animated or not
 @property (nonatomic, assign) BOOL animated;

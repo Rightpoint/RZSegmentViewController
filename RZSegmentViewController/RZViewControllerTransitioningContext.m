@@ -52,6 +52,10 @@
     {
         [newVC didMoveToParentViewController:self.parentViewController];
     }
+    if (self.completionBlock)
+    {
+        self.completionBlock(didComplete, self);
+    }
 }
 
 // Currently interactiveTransitions are not supported.

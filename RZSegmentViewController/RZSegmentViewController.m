@@ -69,7 +69,6 @@
     if (self.segmentControl == nil)
     {
         UISegmentedControl *segmentControl = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kDefaultSegmentControlHeight)];
-        segmentControl.segmentedControlStyle = UISegmentedControlStyleBar;
         segmentControl.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
         [segmentControl addTarget:self action:@selector(segmentControlValueChanged:) forControlEvents:UIControlEventValueChanged];
         
@@ -81,6 +80,12 @@
     [self updateSegmentControl:self.segmentControl forViewControllers:self.viewControllers];
     [self.segmentControl setSelectedSegmentIndex:self.selectedIndex];
     [self showSegmentViewControllerAtIndex:self.selectedIndex];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.segmentControl.userInteractionEnabled = YES;
 }
 
 #pragma mark - Properties
@@ -120,6 +125,11 @@
     {
         UIViewController* nextVC = [self.viewControllers objectAtIndex:index];
         RZViewControllerTransitioningContext* transitioningContext = [[RZViewControllerTransitioningContext alloc] initWithFromViewController:self.currentViewController toViewController:nextVC containerView:self.contentView];
+        __weak __typeof(self)wself = self;
+        transitioningContext.completionBlock = ^(BOOL succeeded, RZViewControllerTransitioningContext* transitioningContext) {
+            wself.segmentControl.userInteractionEnabled = YES;
+        };
+        self.segmentControl.userInteractionEnabled = NO;
         [self.animationTransitioning animateTransition:transitioningContext];
         self.currentViewController = nextVC;
     }
