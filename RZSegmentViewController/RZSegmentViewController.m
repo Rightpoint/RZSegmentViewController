@@ -6,6 +6,7 @@
 //
 
 #import "RZSegmentViewController.h"
+#import "RZViewControllerTransitioningContext.h"
 
 #define kDefaultSegmentControlHeight 44.0
 
@@ -109,26 +110,50 @@
 
 - (void)showSegmentViewControllerAtIndex:(NSUInteger)index
 {
-    [self.currentViewController willMoveToParentViewController:nil];
-    [self.currentViewController.view removeFromSuperview];
-    [self.currentViewController removeFromParentViewController];
-    
-    self.currentViewController = [self.viewControllers objectAtIndex:index];
-    
-    [self addChildViewController:self.currentViewController];
-    self.currentViewController.view.frame = self.contentView.bounds;
-    self.currentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.contentView addSubview:self.currentViewController.view];
-    [self.currentViewController didMoveToParentViewController:self];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectSegmentAtIndex:)])
-    {
-        [self.delegate didSelectSegmentAtIndex:index];
-    }
+    [self showSegmentViewControllerAtIndex:index animated:NO];
 }
 
+- (void)showSegmentViewControllerAtIndex:(NSUInteger)index animated:(BOOL)animated
+{
+
+    if (self.animationTransitioning && animated)
+    {
+        UIViewController* nextVC = [self.viewControllers objectAtIndex:index];
+        RZViewControllerTransitioningContext* transitioningContext = [[RZViewControllerTransitioningContext alloc] initWithFromViewController:self.currentViewController toViewController:nextVC containerView:self.contentView];
+        [self.animationTransitioning animateTransition:transitioningContext];
+        self.currentViewController = nextVC;
+    }
+    else
+    {
+        [self.currentViewController willMoveToParentViewController:nil];
+        [self.currentViewController.view removeFromSuperview];
+        [self.currentViewController removeFromParentViewController];
+        
+        self.currentViewController = [self.viewControllers objectAtIndex:index];
+        
+        [self addChildViewController:self.currentViewController];
+        self.currentViewController.view.frame = self.contentView.bounds;
+        self.currentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self.contentView addSubview:self.currentViewController.view];
+        [self.currentViewController didMoveToParentViewController:self];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectSegmentAtIndex:)])
+        {
+            [self.delegate didSelectSegmentAtIndex:index];
+        }
+    }
+}
 - (IBAction)segmentControlValueChanged:(id)sender
 {
-    self.selectedIndex = self.segmentControl.selectedSegmentIndex;
+    NSInteger selectedIndex = self.segmentControl.selectedSegmentIndex;
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(willSelectSegmentAtIndex:currentIndex:)])
+    {
+        [self.delegate willSelectSegmentAtIndex:selectedIndex currentIndex:self.selectedIndex];
+    }
+
+    [self showSegmentViewControllerAtIndex:selectedIndex animated:YES];
+    _selectedIndex = selectedIndex;
+    
 }
 
 @end
