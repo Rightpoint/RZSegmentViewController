@@ -130,6 +130,7 @@
     if (self.animationTransitioning && animated)
     {
         UIViewController* nextVC = [self.viewControllers objectAtIndex:index];
+        nextVC.view.frame = self.contentView.bounds;
         RZViewControllerTransitioningContext* transitioningContext = [[RZViewControllerTransitioningContext alloc] initWithFromViewController:self.currentViewController toViewController:nextVC containerView:self.contentView];
         __weak __typeof(self)wself = self;
         transitioningContext.completionBlock = ^(BOOL succeeded, RZViewControllerTransitioningContext* transitioningContext) {
