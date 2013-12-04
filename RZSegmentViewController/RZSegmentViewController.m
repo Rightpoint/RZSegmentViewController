@@ -41,6 +41,11 @@
     [self setupSegmentViewController];
 }
 
+- (BOOL)shouldAutomaticallyForwardAppearanceMethods
+{
+    return NO;
+}
+
 - (void)setupSegmentViewController
 {
     // override in sub-class as needed
@@ -91,7 +96,26 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.currentViewController beginAppearanceTransition:YES animated:animated];
     self.segmentControl.userInteractionEnabled = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.currentViewController endAppearanceTransition];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.currentViewController beginAppearanceTransition:NO animated:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.currentViewController endAppearanceTransition];
 }
 
 #pragma mark - Properties
@@ -129,11 +153,24 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
     if (self.animationTransitioning && animated)
     {
+        UIViewController *oldVC = self.currentViewController;
+        [oldVC willMoveToParentViewController:nil];
+        [oldVC beginAppearanceTransition:NO animated:YES];
+        
         UIViewController* nextVC = [self.viewControllers objectAtIndex:index];
         nextVC.view.frame = self.contentView.bounds;
-        RZViewControllerTransitioningContext* transitioningContext = [[RZViewControllerTransitioningContext alloc] initWithFromViewController:self.currentViewController toViewController:nextVC containerView:self.contentView];
+        [self addChildViewController:nextVC];
+        [nextVC beginAppearanceTransition:YES animated:YES];
+        
+        RZViewControllerTransitioningContext* transitioningContext = [[RZViewControllerTransitioningContext alloc] initWithFromViewController:oldVC
+                                                                                                                             toViewController:nextVC
+                                                                                                                                containerView:self.contentView];
+        transitioningContext.parentViewController = self;
+        
         __weak __typeof(self)wself = self;
         transitioningContext.completionBlock = ^(BOOL succeeded, RZViewControllerTransitioningContext* transitioningContext) {
+            [oldVC endAppearanceTransition];
+            [nextVC endAppearanceTransition];
             wself.segmentControl.userInteractionEnabled = YES;
         };
         self.segmentControl.userInteractionEnabled = NO;
@@ -143,17 +180,22 @@
     else
     {
 #endif
+        [self.currentViewController beginAppearanceTransition:NO animated:NO];
         [self.currentViewController willMoveToParentViewController:nil];
         [self.currentViewController.view removeFromSuperview];
         [self.currentViewController removeFromParentViewController];
+        [self.currentViewController endAppearanceTransition];
         
         self.currentViewController = [self.viewControllers objectAtIndex:index];
         
         [self addChildViewController:self.currentViewController];
         self.currentViewController.view.frame = self.contentView.bounds;
         self.currentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self.currentViewController beginAppearanceTransition:YES animated:NO];
         [self.contentView addSubview:self.currentViewController.view];
+        [self.currentViewController endAppearanceTransition];
         [self.currentViewController didMoveToParentViewController:self];
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectSegmentAtIndex:)])
         {
             [self.delegate didSelectSegmentAtIndex:index];

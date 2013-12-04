@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSDictionary* viewControllerKeys;
 @property (nonatomic, strong) UIView* contentContainerView;
+
 @end
 
 @implementation RZViewControllerTransitioningContext
@@ -48,10 +49,12 @@
     UIViewController* oldVC = [self viewControllerForKey:UITransitionContextFromViewControllerKey];
     [oldVC.view removeFromSuperview];
     [oldVC removeFromParentViewController];
+    
     if (self.parentViewController != nil)
     {
         [newVC didMoveToParentViewController:self.parentViewController];
     }
+    
     if (self.completionBlock)
     {
         self.completionBlock(didComplete, self);
