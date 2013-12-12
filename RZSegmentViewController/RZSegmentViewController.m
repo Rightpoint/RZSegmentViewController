@@ -122,14 +122,19 @@
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
+    [self setSelectedIndex:selectedIndex animated:YES];
+    
+    // TODO: Error handling if index is out of bounds?
+}
+
+- (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
+{
     if (selectedIndex < self.segmentControl.numberOfSegments)
     {
         [self.segmentControl setSelectedSegmentIndex:selectedIndex];
-        [self showSegmentViewControllerAtIndex:selectedIndex];
+        [self showSegmentViewControllerAtIndex:selectedIndex animated:animated];
         _selectedIndex = selectedIndex;
     }
-    
-    // TODO: Error handling if index is out of bounds?
 }
 
 #pragma mark - Private

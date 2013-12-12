@@ -35,5 +35,6 @@
 @property (weak) id <RZSegmentViewControllerDelegate> delegate;
 
 - (IBAction)segmentControlValueChanged:(id)sender;
+- (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated;
 
 @end
