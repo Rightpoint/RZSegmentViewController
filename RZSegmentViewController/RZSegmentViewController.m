@@ -16,7 +16,7 @@
 @interface RZSegmentViewController ()
 
 @property (nonatomic, weak) UIViewController *currentViewController;
-@property (nonatomic, assign) BOOL segmentChangedWhileNotVisible;
+@property (nonatomic, assign) BOOL viewIsAppearing;
 
 - (void)setupSegmentViewController;
 
@@ -97,6 +97,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.viewIsAppearing = YES;
     [self.currentViewController beginAppearanceTransition:YES animated:animated];
     self.segmentControl.userInteractionEnabled = YES;
 }
@@ -104,16 +105,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (self.segmentChangedWhileNotVisible)
-    {
-        self.segmentChangedWhileNotVisible = NO;
-        [self.currentViewController beginAppearanceTransition:YES animated:NO];
-        [self.currentViewController endAppearanceTransition];
-    }
-    else
-    {
-        [self.currentViewController endAppearanceTransition];
-    }
+    self.viewIsAppearing = NO;
+    [self.currentViewController endAppearanceTransition];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -221,7 +214,7 @@
         self.currentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
         // Always begin the appearance transition if the view is visible, even if it's in the process of appearing
-        if (viewVisible)
+        if (viewVisible || self.viewIsAppearing)
         {
             [self.currentViewController beginAppearanceTransition:YES animated:NO];
         }
@@ -233,9 +226,7 @@
         {
             [self.currentViewController endAppearanceTransition];
         }
-        
-        self.segmentChangedWhileNotVisible = !viewVisible;
-        
+                
         [self.currentViewController didMoveToParentViewController:self];
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectSegmentAtIndex:)])
