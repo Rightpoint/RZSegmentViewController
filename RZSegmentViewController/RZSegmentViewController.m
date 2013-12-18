@@ -16,6 +16,7 @@
 @interface RZSegmentViewController ()
 
 @property (nonatomic, weak) UIViewController *currentViewController;
+@property (nonatomic, assign) BOOL segmentChangedWhileNotVisible;
 
 - (void)setupSegmentViewController;
 
@@ -103,7 +104,16 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.currentViewController endAppearanceTransition];
+    if (self.segmentChangedWhileNotVisible)
+    {
+        self.segmentChangedWhileNotVisible = NO;
+        [self.currentViewController beginAppearanceTransition:YES animated:NO];
+        [self.currentViewController endAppearanceTransition];
+    }
+    else
+    {
+        [self.currentViewController endAppearanceTransition];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -155,8 +165,10 @@
 
 - (void)showSegmentViewControllerAtIndex:(NSUInteger)index animated:(BOOL)animated
 {
+    BOOL viewVisible = self.isViewLoaded ? (self.view.window != nil) : NO;
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
-    if (self.animationTransitioning && animated)
+    if (self.animationTransitioning && animated && viewVisible)
     {
         UIViewController *oldVC = self.currentViewController;
         [oldVC willMoveToParentViewController:nil];
@@ -185,20 +197,45 @@
     else
     {
 #endif
-        [self.currentViewController beginAppearanceTransition:NO animated:NO];
-        [self.currentViewController willMoveToParentViewController:nil];
-        [self.currentViewController.view removeFromSuperview];
-        [self.currentViewController removeFromParentViewController];
-        [self.currentViewController endAppearanceTransition];
+        // Transition out the old view controller
+        if (self.currentViewController != nil)
+        {
+            if (viewVisible)
+            {
+                [self.currentViewController beginAppearanceTransition:NO animated:NO];
+            }
+            [self.currentViewController willMoveToParentViewController:nil];
+            [self.currentViewController.view removeFromSuperview];
+            [self.currentViewController removeFromParentViewController];
+            if (viewVisible)
+            {
+                [self.currentViewController endAppearanceTransition];
+            }
+        }
         
+        // Tranisition in the new view controller.
         self.currentViewController = [self.viewControllers objectAtIndex:index];
         
         [self addChildViewController:self.currentViewController];
         self.currentViewController.view.frame = self.contentView.bounds;
         self.currentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self.currentViewController beginAppearanceTransition:YES animated:NO];
+        
+        // Always begin the appearance transition if the view is visible, even if it's in the process of appearing
+        if (viewVisible)
+        {
+            [self.currentViewController beginAppearanceTransition:YES animated:NO];
+        }
+        
         [self.contentView addSubview:self.currentViewController.view];
-        [self.currentViewController endAppearanceTransition];
+        
+        // If the segment VC has not yet appeared, DO NOT end the appearance transition
+        if (viewVisible)
+        {
+            [self.currentViewController endAppearanceTransition];
+        }
+        
+        self.segmentChangedWhileNotVisible = !viewVisible;
+        
         [self.currentViewController didMoveToParentViewController:self];
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectSegmentAtIndex:)])
