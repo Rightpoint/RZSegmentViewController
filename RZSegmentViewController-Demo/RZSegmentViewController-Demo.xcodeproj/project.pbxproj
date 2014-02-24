@@ -29,6 +29,8 @@
 		8384CE8A1745871600854C09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8384CE881745871600854C09 /* AppDelegate.m */; };
 		8384CE8D1745872600854C09 /* RZSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8384CE8C1745872600854C09 /* RZSegmentViewController.m */; };
 		8384CE8E1745872600854C09 /* RZSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8384CE8C1745872600854C09 /* RZSegmentViewController.m */; };
+		98CC5BC218298A9400648D31 /* RZViewControllerTransitioningContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CC5BC118298A9400648D31 /* RZViewControllerTransitioningContext.m */; };
+		98CC5BC618298B3F00648D31 /* RZAnimationTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CC5BC518298B3F00648D31 /* RZAnimationTransition.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,10 @@
 		8384CE881745871600854C09 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Application/AppDelegate.m; sourceTree = "<group>"; };
 		8384CE8B1745872600854C09 /* RZSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RZSegmentViewController.h; path = ../../RZSegmentViewController/RZSegmentViewController.h; sourceTree = "<group>"; };
 		8384CE8C1745872600854C09 /* RZSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZSegmentViewController.m; path = ../../RZSegmentViewController/RZSegmentViewController.m; sourceTree = "<group>"; };
+		98CC5BC018298A9400648D31 /* RZViewControllerTransitioningContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RZViewControllerTransitioningContext.h; path = ../../RZSegmentViewController/RZViewControllerTransitioningContext.h; sourceTree = "<group>"; };
+		98CC5BC118298A9400648D31 /* RZViewControllerTransitioningContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZViewControllerTransitioningContext.m; path = ../../RZSegmentViewController/RZViewControllerTransitioningContext.m; sourceTree = "<group>"; };
+		98CC5BC418298B3F00648D31 /* RZAnimationTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RZAnimationTransition.h; path = Animations/RZAnimationTransition.h; sourceTree = "<group>"; };
+		98CC5BC518298B3F00648D31 /* RZAnimationTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZAnimationTransition.m; path = Animations/RZAnimationTransition.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +136,7 @@
 		8384CE3917457A5900854C09 /* RZSegmentViewController-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				98CC5BC318298B1D00648D31 /* Animation */,
 				8384CE7C17457C0F00854C09 /* Application */,
 				8384CE7B17457C0A00854C09 /* ViewControllers */,
 				8384CE3A17457A5900854C09 /* Supporting Files */,
@@ -173,6 +180,8 @@
 		8384CE7217457A8400854C09 /* RZSegmentViewController */ = {
 			isa = PBXGroup;
 			children = (
+				98CC5BC018298A9400648D31 /* RZViewControllerTransitioningContext.h */,
+				98CC5BC118298A9400648D31 /* RZViewControllerTransitioningContext.m */,
 				8384CE8B1745872600854C09 /* RZSegmentViewController.h */,
 				8384CE8C1745872600854C09 /* RZSegmentViewController.m */,
 			);
@@ -201,6 +210,15 @@
 				8384CE881745871600854C09 /* AppDelegate.m */,
 			);
 			name = Application;
+			sourceTree = "<group>";
+		};
+		98CC5BC318298B1D00648D31 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				98CC5BC418298B3F00648D31 /* RZAnimationTransition.h */,
+				98CC5BC518298B3F00648D31 /* RZAnimationTransition.m */,
+			);
+			name = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,9 +332,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8384CE4017457A5900854C09 /* main.m in Sources */,
+				98CC5BC618298B3F00648D31 /* RZAnimationTransition.m in Sources */,
 				8384CE7917457C0400854C09 /* BasicViewController.m in Sources */,
 				8384CE82174583D600854C09 /* BasicTableViewController.m in Sources */,
 				8384CE851745870B00854C09 /* MainViewController.m in Sources */,
+				98CC5BC218298A9400648D31 /* RZViewControllerTransitioningContext.m in Sources */,
 				8384CE891745871600854C09 /* AppDelegate.m in Sources */,
 				8384CE8D1745872600854C09 /* RZSegmentViewController.m in Sources */,
 			);
@@ -427,6 +447,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZSegmentViewController-Demo/RZSegmentViewController-Demo-Prefix.pch";
 				INFOPLIST_FILE = "RZSegmentViewController-Demo/RZSegmentViewController-Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -438,6 +459,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZSegmentViewController-Demo/RZSegmentViewController-Demo-Prefix.pch";
 				INFOPLIST_FILE = "RZSegmentViewController-Demo/RZSegmentViewController-Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
